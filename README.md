@@ -1,2 +1,1 @@
-# piFinder
-# piFinder
+# piFinder is a simple program that finds the number of pi
