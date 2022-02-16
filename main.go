@@ -17,18 +17,31 @@ func throwPebble(r float64) func() bool {
 	}
 }
 
-func piFind(n int) float64 {
-	var sumCircle = 0
-	var r = 1.0
-	s := throwPebble(r)
-	for i := 0; i < n; i++ {
-		if s() {
-			sumCircle++
-		}
+func piFind(n int, threads int) float64 {
+	threadsNumber := n / threads
+	result := make(chan float64, threads)
+	for i := 0; i < threads; i++ {
+		go func() {
+			var sumCircle = 0
+			var r = 1.0
+			s := throwPebble(r)
+			for j := 0; j < threadsNumber; j++ {
+				if s() {
+					sumCircle++
+				}
+			}
+			result <- 4.0 * float64(sumCircle) / float64(threadsNumber)
+
+		}()
 	}
-	return 4.0 * float64(sumCircle) / float64(n)
+	var total float64
+	for i := 0; i < threads; i++ {
+		total += <-result
+	}
+
+	return total / float64(threads)
 }
 
 func main() {
-	fmt.Println(piFind(999))
+	fmt.Println(piFind(1000000000, 2))
 }
