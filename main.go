@@ -6,10 +6,6 @@ import (
 	"time"
 )
 
-
-
-
-
 func piFind(n int, threads int) (float64, time.Duration) {
 	batchNumber := n / threads
 	result := make(chan float64, threads)
