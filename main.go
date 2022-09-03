@@ -5,7 +5,6 @@ import (
 	"math/rand"
 	"time"
 )
-// piFind pi sayısını bulur.
 func piFind(n int, threads int) (float64, time.Duration) {
 	batchNumber := n / threads
 	result := make(chan float64, threads)
